@@ -23,11 +23,11 @@ module tb;
         VA.calculate_address();
 
 
-        $display("VA  = %h \n", VA.sv39_va);
         $display("PTE = %h \n", PTE.pte);
         $display("physical_address = %h \n", PTE.physical_address);
 
         `ifdef MODE_SV39
+         $display("VA for sv39 scheme = %h \n", VA.sv39_va);
             `ifdef LEVEL2
                 $display("╭────────────────╮");
                 $display("│   Sv39 Level2  │");
@@ -52,6 +52,7 @@ module tb;
         `endif
         
         `ifdef MODE_SV39x4
+        $display("VA for sv39 scheme  = %h \n", VA.sv39_va);
             `ifdef LEVEL2
                 $display("╭────────────────╮");
                 $display("│  Sv39*4 Level2 │");
@@ -74,6 +75,7 @@ module tb;
         `endif
         
         `ifdef MODE_SV48
+        $display("VA for sv48 scheme = %h \n", VA.sv48_va);        
             `ifdef LEVEL3
                 $display("╭────────────────╮");
                 $display("│   Sv48 Level3  │");

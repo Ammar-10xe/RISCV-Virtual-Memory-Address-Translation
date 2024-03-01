@@ -38,10 +38,7 @@ class calculate_VA;
        bit [63:0] sv48_level2_pointer;
        bit [63:0] sv48_level1_pointer;
        bit [63:0] sv48_level0_pointer;
-       
-
-
-        
+      
     function void post_randomize();
         sv39_va = {vpn2,vpn1,vpn0,offset};
         sv48_va = {vpn3,vpn2,vpn1,vpn0,offset};
@@ -86,10 +83,10 @@ class calculate_VA;
           `endif
 
         `elsif MODE_SV48
-            
+
           `ifdef LEVEL3
             mem_addr_level3 = (`SV48_LVL3_ADDR + mem_lvl3_offset);       
-          `ifdef LEVEL2
+          `elsif LEVEL2
             sv48_level2_pointer  = ((`SV48_LVL2_ADDR << 10 ) >> 12);
             mem_addr_level2 = (`SV48_LVL2_ADDR + mem_lvl2_offset);
             mem_addr_level3 = (`SV48_LVL3_ADDR + mem_lvl3_offset);       
