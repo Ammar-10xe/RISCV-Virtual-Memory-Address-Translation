@@ -27,7 +27,7 @@ class calculate_VA;
          bit [63:0] mem_addr_level0;
          bit [63:0] mem_addr_level1;
          bit [63:0] mem_addr_level2;                  
-    // for level 0 and 1 pointer 
+         // for level 0 and 1 pointer 
          bit [63:0] sv39_level1_pointer;   // pointer from level2 to root base address of level1
          bit [63:0] sv39_level0_pointer;   // pointer from level1 to root base address of level0
          bit [63:0] sv39x4_level1_pointer; // pointer from level2 to root base address of level1

@@ -14,7 +14,7 @@ class calculate_PTE;
 
      `ifdef LEVEL2
       constraint misaligned_lvl2_check {
-         ppn2 == 21'h0 &&  ppn1 == 9'h0;
+         ppn1 == 21'h0 &&  ppn0 == 9'h0;
         }; // misaligned level2 pte
      `elsif LEVEL1
       constraint misaligned_lvl1_check {
