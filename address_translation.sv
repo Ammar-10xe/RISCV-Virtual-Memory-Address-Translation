@@ -23,7 +23,7 @@ module tb;
         VA.calculate_address();
 
 
-        $display("VA  = %h \n", VA.va);
+        $display("VA  = %h \n", VA.sv39_va);
         $display("PTE = %h \n", PTE.pte);
         $display("physical_address = %h \n", PTE.physical_address);
 

@@ -2,20 +2,20 @@ class calculate_VA;
 
     `ifdef MODE_SV39
     rand bit [8:0]  vpn2; 
-    rand bit [38:0]  va; 
+         bit [38:0]  sv39_va; 
          bit [13:0] mem_lvl2_offset;
   
     `elsif MODE_SV39x4
     rand bit [10:0] vpn2;
-    rand bit [41:0] va;
+         bit [41:0] sv39_va;
          bit [13:0] mem_lvl2_offset;
     constraint vpn2_constraint {
        vpn2 >= 512 & vpn2 <= 2048;
       }; 
     
     `else
-    rand bit [8:0]  vpn2;  //default sv39 
-    rand bit [38:0]  va;
+    rand bit [8:0]  vpn2;  
+         bit [38:0]  sv39_va;             //Default sv39 
          bit [11:0] mem_lvl2_offset;        
     `endif
 
@@ -33,7 +33,7 @@ class calculate_VA;
          bit [63:0] sv39x4_level1_pointer; // pointer from level2 to root base address of level1
          bit [63:0] sv39x4_level0_pointer; // pointer from level1 to root base address of level0         
     function void post_randomize();
-        va = {vpn2,vpn1,vpn0,offset};
+        sv39_va = {vpn2,vpn1,vpn0,offset};
         mem_lvl2_offset = vpn2*8;
         mem_lvl1_offset = vpn1*8;
         mem_lvl0_offset = vpn0*8;
