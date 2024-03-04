@@ -4,7 +4,7 @@ class calculate_PTE;
    rand bit [8:0] ppn1;
    rand bit [8:0] ppn2;
    rand bit [12:0]ppn3;
-   rand bit [8:0]ppn3_sv57;
+   rand bit [8:0] ppn3_sv57;
    rand bit [3:0] ppn4;
    rand bit [21:0]ppn2_sv39;
         bit [6:0] reserved;
