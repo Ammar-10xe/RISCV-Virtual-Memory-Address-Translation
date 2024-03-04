@@ -106,6 +106,36 @@ module tb;
             `endif 
         `endif
 
+        `ifdef MODE_SV48x4
+        $display("VA for sv48 scheme = %h \n", VA.sv48_va);        
+            `ifdef LEVEL3
+                $display("╭────────────────╮");
+                $display("│  Sv48x4 Level3 │");
+                $display("╰────────────────╯"); 
+                $display("Store PTE %h at address %h \n",PTE.pte_sv48,VA.mem_addr_level3);    
+            `elsif LEVEL2
+                $display("╭────────────────╮");
+                $display("│  Sv48x4 Level2 │");
+                $display("╰────────────────╯"); 
+                $display("Store level2 root base pointer %h at address %h \n",VA.sv48_level2_pointer,VA.mem_addr_level3);
+                $display("Store PTE %h at address %h \n",PTE.pte_sv48,VA.mem_addr_level2);        
+            `elsif LEVEL1
+                $display("╭────────────────╮");
+                $display("│  Sv48x4 Level1 │");
+                $display("╰────────────────╯"); 
+                $display("Store level2 root base pointer %h at address %h \n",VA.sv48_level2_pointer,VA.mem_addr_level3)
+                $display("Store level1 root base pointer %h at address %h \n",VA.sv48_level1_pointer,VA.mem_addr_level2);
+                $display("Store PTE %h at address %h \n",PTE.pte_sv48,VA.mem_addr_level1);   
+            `else
+                $display("╭────────────────╮");
+                $display("│  Sv48x4 Level0 │");
+                $display("╰────────────────╯"); 
+                $display("Store level2 root base pointer %h at address %h \n",VA.sv48_level2_pointer,VA.mem_addr_level3);
+                $display("Store level1 root base pointer %h at address %h \n",VA.sv48_level1_pointer,VA.mem_addr_level2);
+                $display("Store level0 root base pointer %h at address %h \n",VA.sv48_level0_pointer,VA.mem_addr_level1);
+                $display("Store PTE %h at address %h \n",PTE.pte_sv48,VA.mem_addr_level0);                
+            `endif 
+        `endif
     end
 
     initial begin     
