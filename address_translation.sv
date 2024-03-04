@@ -124,7 +124,7 @@ module tb;
                 $display("╭────────────────╮");
                 $display("│  Sv48x4 Level1 │");
                 $display("╰────────────────╯"); 
-                $display("Store level2 root base pointer %h at address %h \n",VA.sv48_level2_pointer,VA.mem_addr_level3)
+                $display("Store level2 root base pointer %h at address %h \n",VA.sv48x4_level2_pointer,VA.mem_addr_level3)
                 $display("Store level1 root base pointer %h at address %h \n",VA.sv48x4_level1_pointer,VA.mem_addr_level2);
                 $display("Store PTE %h at address %h \n",PTE.pte_sv48,VA.mem_addr_level1);   
             `else
