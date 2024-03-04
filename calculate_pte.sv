@@ -1,10 +1,10 @@
 class calculate_PTE;
         bit [9:0] permissions;
-        bit [1:0] rsw;
    rand bit [8:0] ppn0;
    rand bit [8:0] ppn1;
    rand bit [8:0] ppn2;
    rand bit [12:0]ppn3;
+   rand bit [8:0]ppn3_sv57;
    rand bit [3:0] ppn4;
    rand bit [21:0]ppn2_sv39;
         bit [6:0] reserved;
@@ -37,9 +37,9 @@ class calculate_PTE;
 
    function void post_randomize();
    
-      pte_sv39 = {n,pbmt,reserved,ppn2_sv39,ppn1,ppn0,rsw,permissions};
-      pte_sv48 = {n,pbmt,reserved,ppn3,ppn2,ppn1,ppn0,rsw,permissions};
-      pte_sv57 = {n,pbmt,reserved,ppn4,ppn3,ppn2,ppn1,ppn0,rsw,permissions};
+      pte_sv39 = {n,pbmt,reserved,4'b0,ppn2_sv39,ppn1,ppn0,permissions};
+      pte_sv48 = {n,pbmt,reserved,4'b0,ppn3,ppn2,ppn1,ppn0,permissions};
+      pte_sv57 = {n,pbmt,reserved,4'b0,ppn4,ppn3_sv57,ppn2,ppn1,ppn0,permissions};
    
    endfunction
 
