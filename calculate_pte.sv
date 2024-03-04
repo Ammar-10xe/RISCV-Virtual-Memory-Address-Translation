@@ -3,17 +3,31 @@ class calculate_PTE;
         bit [1:0] rsw;
    rand bit [8:0] ppn0;
    rand bit [8:0] ppn1;
-   rand bit [21:0]ppn2;
+   rand bit [8:0] ppn2;
+   rand bit [12:0]ppn3;
+   rand bit [3:0] ppn4;
+   rand bit [21:0]ppn2_sv39;
         bit [6:0] reserved;
         bit [1:0] pbmt;
-        bit [63:0]pte;
+        bit [63:0]pte_sv39;
+        bit [63:0]pte_sv48;
+        bit [63:0]pte_sv57;
         bit       n;
-        bit [55:0] physical_address; 
-        bit [11:0] offset; 
+        bit [55:0]physical_address; 
+        bit [11:0]offset; 
 
-   `ifdef LEVEL2
+   `ifdef LEVEL4
+        constraint misaligned_lvl4_check {
+         (ppn3 == 'h0) && (ppn2 == 'h0) && (ppn1 == 21'h0) &&  (ppn0 == 9'h0);
+        }; // misaligned level4 pte 
+
+   `elsif LEVEL3
+        constraint misaligned_lvl3_check {
+         (ppn2 == 'h0) && (ppn1 == 21'h0) &&  (ppn0 == 9'h0);
+        }; // misaligned level3 pte             
+   `elsif LEVEL2
       constraint misaligned_lvl2_check {
-         ppn1 == 21'h0 &&  ppn0 == 9'h0;
+         (ppn1 == 21'h0) &&  (ppn0 == 9'h0);
         }; // misaligned level2 pte
    `elsif LEVEL1
       constraint misaligned_lvl1_check {
@@ -21,14 +35,30 @@ class calculate_PTE;
         }; // misaligned level1 pte
    `endif 
 
- 
-
    function void post_randomize();
-      pte = {n,pbmt,reserved,ppn2,ppn1,ppn0,rsw,permissions};
+   
+      pte_sv39 = {n,pbmt,reserved,ppn2_sv39,ppn1,ppn0,rsw,permissions};
+      pte_sv48 = {n,pbmt,reserved,ppn3,ppn2,ppn1,ppn0,rsw,permissions};
+      pte_sv57 = {n,pbmt,reserved,ppn4,ppn3,ppn2,ppn1,ppn0,rsw,permissions};
+   
    endfunction
 
    function void calculate_pa();
-     physical_address = {(pte>>10),offset}; //pa needs to be updated if pte is on level 0 then vpn1 and vpn0 aty hai 
+
+      `ifdef MODE_SV39
+         physical_address = {(pte_sv39>>10),offset}; //pa needs to be updated for level 2 and level1 
+      `elsif MODE_SV39x4
+         physical_address = {(pte_sv39>>10),offset}; //pa needs to be updated for level 2 and level1 cases
+      `elsif MODE_SV48
+         physical_address = {(pte_sv48>>10),offset}; //pa needs to be updated for level 2 and level1 cases
+      `elsif MODE_SV48x4
+         physical_address = {(pte_sv48>>10),offset}; //pa needs to be updated for level 2 and level1 cases
+      `elsif MODE_SV57
+         physical_address = {(pte_sv57>>10),offset}; //pa needs to be updated for level 2 and level1 cases
+      `elsif MODE_SV57x4
+         physical_address = {(pte_sv57>>10),offset}; //pa needs to be updated for level 2 and level1 cases
+      `endif 
+
    endfunction
              
 endclass
