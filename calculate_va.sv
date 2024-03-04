@@ -187,23 +187,40 @@ class calculate_VA;
             mem_addr_level3      = (`SV57_LVL3_ADDR + mem_lvl3_offset);
             mem_addr_level4      = (`SV57_LVL4_ADDR + mem_lvl4_offset);
           `endif
+          
+          `elsif MODE_SV57x4
 
-        `else //default sv39
-
-          `ifdef LEVEL2
-            mem_addr_level2      = (`SV39_LVL2_ADDR + mem_lvl2_offset);
-          `elsif LEVEL1
-            sv39_level1_pointer  = ((`SV39_LVL1_ADDR << 10 ) >> 12);
-            mem_addr_level2      = (`SV39_LVL2_ADDR + mem_lvl2_offset);
-            mem_addr_level1      = (`SV39_LVL1_ADDR + mem_lvl1_offset);           
-          `else
-            sv39_level1_pointer  = ((`SV39_LVL1_ADDR << 10 ) >> 12);
-            sv39_level0_pointer  = ((`SV39_LVL0_ADDR << 10 ) >> 12);
-            mem_addr_level0      = (`SV39_LVL0_ADDR + mem_lvl0_offset);
-            mem_addr_level1      = (`SV39_LVL1_ADDR + mem_lvl1_offset);           
-            mem_addr_level2      = (`SV39_LVL2_ADDR + mem_lvl1_offset);            
-          `endif 
-
+            `ifdef LEVEL4
+              mem_addr_level4      = (`SV57x4_LVL4_ADDR + mem_lvl4_offset); 
+            `elsif LEVEL3
+              sv57x4_level3_pointer  = ((`SV57x4_LVL3_ADDR << 10 ) >> 12);
+              mem_addr_level3      = (`SV57x4_LVL3_ADDR + mem_lvl3_offset);
+              mem_addr_level4      = (`SV57x4_LVL4_ADDR + mem_lvl4_offset);
+            `elsif LEVEL2
+              sv57x4_level3_pointer  = ((`SV57x4_LVL3_ADDR << 10 ) >> 12);
+              sv57x4_level2_pointer  = ((`SV57x4_LVL2_ADDR << 10 ) >> 12);
+              mem_addr_level2      = (`SV57x4_LVL2_ADDR + mem_lvl2_offset);
+              mem_addr_level3      = (`SV57x4_LVL3_ADDR + mem_lvl3_offset);
+              mem_addr_level4      = (`SV57x4_LVL4_ADDR + mem_lvl4_offset);       
+            `elsif LEVEL1
+              sv57x4_level3_pointer  = ((`SV57x4_LVL3_ADDR << 10 ) >> 12);
+              sv57x4_level2_pointer  = ((`SV57x4_LVL2_ADDR << 10 ) >> 12);
+              sv57x4_level1_pointer  = ((`SV57x4_LVL1_ADDR << 10 ) >> 12);
+              mem_addr_level1      = (`SV57x4_LVL1_ADDR + mem_lvl1_offset);  
+              mem_addr_level2      = (`SV57x4_LVL2_ADDR + mem_lvl2_offset);
+              mem_addr_level3      = (`SV57x4_LVL3_ADDR + mem_lvl3_offset);
+              mem_addr_level4      = (`SV57x4_LVL4_ADDR + mem_lvl4_offset);       
+            `else
+              sv57x4_level3_pointer  = ((`SV57x4_LVL3_ADDR << 10 ) >> 12);
+              sv57x4_level2_pointer  = ((`SV57x4_LVL2_ADDR << 10 ) >> 12);
+              sv57x4_level1_pointer  = ((`SV57x4_LVL1_ADDR << 10 ) >> 12);
+              sv57x4_level0_pointer  = ((`SV57x4_LVL0_ADDR << 10 ) >> 12);
+              mem_addr_level0      = (`SV57x4_LVL0_ADDR + mem_lvl0_offset);  
+              mem_addr_level1      = (`SV57x4_LVL1_ADDR + mem_lvl1_offset);  
+              mem_addr_level2      = (`SV57x4_LVL2_ADDR + mem_lvl2_offset);
+              mem_addr_level3      = (`SV57x4_LVL3_ADDR + mem_lvl3_offset);
+              mem_addr_level4      = (`SV57x4_LVL4_ADDR + mem_lvl4_offset);
+            `endif    
         `endif 
 
     endfunction
