@@ -6,7 +6,7 @@ module tb;
     calculate_VA VA;
     calculate_PTE PTE;
     bit [9:0] pte_permissions;
-    
+    int udpate_dump;
     initial begin
 
         VA = new();
@@ -20,6 +20,8 @@ module tb;
         PTE.offset = VA.offset;
         PTE.calculate_pa();
         VA.calculate_address();
+
+        udpate_dump = $fopen("dump.txt", "a");
 
 
         $display("physical_address = %h \n", PTE.physical_address);
@@ -72,7 +74,6 @@ module tb;
             `endif 
         `endif
         
-                
         `ifdef MODE_SV48
         $display("VA for sv48 scheme = %h \n", VA.sv48_va);        
             `ifdef LEVEL3
