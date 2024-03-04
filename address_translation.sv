@@ -1,5 +1,4 @@
 `include "defines.sv"
-`include "calculate_va.sv"
 `include "calculate_pte.sv"       
 
 module tb;   
