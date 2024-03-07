@@ -47,18 +47,18 @@ class calculate_PTE extends calculate_VA;
 
       `ifdef MODE_SV39
          `ifdef LEVEL2
-            physical_address = {ppn2,vpn1,vpn0,offset};
+            physical_address = {ppn2_sv39,vpn1,vpn0,offset};
          `elsif LEVEL1
-            physical_address = {ppn2,ppn1,vpn0,offset};
+            physical_address = {ppn2_sv39,ppn1,vpn0,offset};
          `else
             physical_address = {(pte_sv39>>10),offset}; 
          `endif 
 
       `elsif MODE_SV39x4
          `ifdef LEVEL2
-            physical_address = {ppn2,vpn1,vpn0,offset};
+            physical_address = {ppn2_sv39,vpn1,vpn0,offset};
          `elsif LEVEL1
-            physical_address = {ppn2,ppn1,vpn0,offset};
+            physical_address = {ppn2_sv39,ppn1,vpn0,offset};
          `else
             physical_address = {(pte_sv39>>10),offset}; 
          `endif 
