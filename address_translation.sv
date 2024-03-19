@@ -23,8 +23,7 @@ module reference_model;
     calculate_pte pte;
     device_contex dc;
     bit [9:0]   pte_permissions;
-    bit [11:0]  trans_id;
-    bit [21:0]  device_id;
+    bit [23:0]  device_id;
     bit [159:0] dti_tbu_condis_req;
     bit [63:0]  dc_tc;
     bit [63:0]  dc_iohgatp;
@@ -64,12 +63,10 @@ module reference_model;
         update_mem = $fopen("./tb/tests/mem_setup.sv","w");
         update_va  = $fopen("./tb/seqs/va.txt", "w");
         update_pa  = $fopen("./tb/reference_pa.txt", "w");
-        update_id  = $fopen("./tb/seqs/trans_id.txt", "w");
         update_dc  = $fopen("./tb/tests/dc_setup.sv", "w");
         update_did = $fopen("./tb/seqs/device_id.txt", "w");
 
         for (int i = 0; i < repeat_count; i++) begin
-            trans_id = i;
             if (!(va.randomize() && pte.randomize() && dc.randomize())) begin
             $fatal("[Address Translation]: Address Translation randomization failed");
             end 
@@ -89,7 +86,6 @@ module reference_model;
         
                 update_did  = $fopen("./tb/seqs/device_id.txt", "a");
                 update_dc  = $fopen("./tb/tests/dc_setup.sv", "a");
-                update_id  = $fopen("./tb/seqs/trans_id.txt", "a");
                 update_mem = $fopen("./tb/tests/mem_setup.sv","a");
                 update_va  = $fopen("./tb/seqs/va.txt", "a");
                 update_pa  = $fopen("./tb/reference_pa.txt", "a");
@@ -122,7 +118,6 @@ module reference_model;
                     $fdisplay(update_mem, "`include \"dc_setup.sv\"\n");
                 end
 
-                $fdisplay( update_id, "%h",trans_id);
                 $fdisplay( update_did, "%h",device_id);
     
                 `ifdef MODE_SV39
@@ -163,7 +158,7 @@ module reference_model;
 
                 `ifdef MODE_SV39x4 // When the Mode is Sv39x4 ( Second stage Translation )
 
-                    if ( ~ `first_stage) begin // If First stage is Bare
+                    if (`first_stage == `FIRST_STAGE_BARE) begin // If First stage is Bare
                             dc_ta                = 'h0;
                             dc_fsc               = 'h0;
                             dc_msiptp            = 'h0;
@@ -179,8 +174,8 @@ module reference_model;
                             dc_tc                = 'h1;
                             dc_iohgatp           = ((`SV39x4_LVL2_ADDR >> 12) | (`Sv39x4_MODE));
                         `elsif DDTP_MODE_LVL3
-                            $fdisplay(update_dc,"env_wrapper.aaxi_aace_base_env.env0.slave[0].driver.memory_dw_fill_direct(40'h%h, 64'h%h); // Pointer to DDTP LVL1",dc.mem_addr_lvl2,dc.nonleaf1_entry);
                             $fdisplay(update_dc,"env_wrapper.aaxi_aace_base_env.env0.slave[0].driver.memory_dw_fill_direct(40'h%h, 64'h%h); // Pointer to DDTP LVL2",dc.mem_addr_lvl3,dc.nonleaf2_entry);
+                            $fdisplay(update_dc,"env_wrapper.aaxi_aace_base_env.env0.slave[0].driver.memory_dw_fill_direct(40'h%h, 64'h%h); // Pointer to DDTP LVL1",dc.mem_addr_lvl2,dc.nonleaf1_entry);
                             dc_tc                = 'h1;
                             dc_iohgatp           = ((`SV39x4_LVL2_ADDR >> 12) | (`Sv39x4_MODE));                            
                         `endif
@@ -523,9 +518,10 @@ module reference_model;
                 `endif
                 $fclose(update_mem);
                 $fclose(update_pa);
-                $fclose(update_va);                                
+                $fclose(update_va);  
+                $fclose(update_dc);
+                $fclose(update_did);                              
             end
         end
     end
 endmodule
-    
